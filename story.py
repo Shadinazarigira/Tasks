@@ -25,6 +25,7 @@ def make_fun_story():
     place1=random.choice([user_place,user1_place])
     place2=random.choice([user_place,user1_place])
 
+
     story = (
         f"Once upon a time, a {adj1} {noun1} {verb1} through the {place1}. "
         f"There, it met a {adj2} {noun2} who loved to {verb2}. "
