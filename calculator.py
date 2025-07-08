@@ -1,55 +1,44 @@
-def add(x, y):
-    return x + y
+import tkinter as tk
 
-def subtract(x, y):
-    return x - y
+def click(event):
+    text = event.widget.cget("text")
+    if text == "=":
+        try:
+            expression = entry.get()
+            result = eval(expression)
+            entry.delete(0, tk.END)
+            entry.insert(tk.END, str(result))
+        except Exception as e:
+            entry.delete(0, tk.END)
+            entry.insert(tk.END, "Error")
+    elif text == "C":
+        entry.delete(0, tk.END)
+    else:
+        entry.insert(tk.END, text)
 
-def multiply(x, y):
-    return x * y
+root = tk.Tk()
+root.title("Calculator")
 
-def divide(x, y):
-    if y == 0:
-        return "Error! Division by zero."
-    return x / y
+entry = tk.Entry(root, font=("Arial", 20), borderwidth=2, relief="ridge")
+entry.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
 
-def calculator():
-    print("Simple Calculator")
-    print("Select operation:")
-    print("1. Add")
-    print("2. Subtract")
-    print("3. Multiply")
-    print("4. Divide")
+buttons = [
+    '7', '8', '9', '/',
+    '4', '5', '6', '*',
+    '1', '2', '3', '-',
+    'C', '0', '=', '+'
+]
 
-    while True:
-        choice = input("Enter choice (1/2/3/4): ")
+row_val = 1
+col_val = 0
+for button_text in buttons:
+    button = tk.Button(root, text=button_text, font=("Arial", 18), width=5, height=2)
+    button.grid(row=row_val, column=col_val, padx=5, pady=5)
+    button.bind("<Button-1>", click)
+    col_val += 1
+    if col_val > 3:
+        col_val = 0
+        row_val += 1
 
-        if choice in ['1', '2', '3', '4']:
-            try:
-                num1 = float(input("Enter first number: "))
-                num2 = float(input("Enter second number: "))
-            except ValueError:
-                print("Invalid input! Please enter numeric values.")
-                continue
-
-            if choice == '1':
-                print(f"{num1} + {num2} = {add(num1, num2)}")
-            elif choice == '2':
-                print(f"{num1} - {num2} = {subtract(num1, num2)}")
-            elif choice == '3':
-                print(f"{num1} * {num2} = {multiply(num1, num2)}")
-            elif choice == '4':
-                result = divide(num1, num2)
-                print(f"{num1} / {num2} = {result}")
-
-            # Ask if user wants another calculation
-            next_calculation = input("Do you want to perform another calculation? (yes/no): ").lower()
-            if next_calculation != 'yes':
-                print("Thank you for using the calculator. Goodbye!")
-                break
-        else:
-            print("Invalid choice! Please select a valid operation.")
-
-if __name__ == "__main__":
-    calculator()
-############################################
+root.mainloop()
 
